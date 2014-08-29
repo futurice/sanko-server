@@ -22,5 +22,15 @@ wss.on('connection', function(ws) {
     wss.broadcast(message);
   });
 
-  console.log('connected with a new client');
+  console.log('WS connected');
+  console.log('  %d clients connected', this.clients.length);
+
+  var id = setInterval(function() {
+    ws.send("--" + new Date().toISOString() + "--");
+  }, 10000);
+
+  ws.on("close", function() {
+    console.log("WS closed");
+    clearInterval(id);
+  });
 });
